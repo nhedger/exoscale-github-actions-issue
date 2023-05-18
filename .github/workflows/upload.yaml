@@ -9,13 +9,12 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-     - name: Download RegBL archive
-       run: curl -o "regbl.zip" "https://public.madd.bfs.admin.ch/ch.zip"
+      - name: Download RegBL archive
+        run: curl -o "regbl.zip" "https://public.madd.bfs.admin.ch/ch.zip"
 
       - name: Setup Exoscale
         uses: nhedger/setup-exoscale@main
         with:
-          authenticate: true
           zone: ch-gva-2
           account: ${{ secrets.EXOSCALE_ACCOUNT }}
           key: ${{ secrets.EXOSCALE_KEY }}
