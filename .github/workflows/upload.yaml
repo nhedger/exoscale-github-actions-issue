@@ -46,4 +46,4 @@ jobs:
         run: exo storage upload regbl-storage-upload.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}
         
       - name: Remove uploaded file from bucket
-        run: exo storage delete sos://${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage-upload.zip
+        run: exo storage delete sos://${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage-upload.zip --force
