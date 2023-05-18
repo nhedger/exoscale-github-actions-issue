@@ -1,3 +1,7 @@
+# Exoscale CLI SOS Upload Performance Issues
+
 This repository contains a minimal reproducible example of the following issue:
 
-- Trying to upload large files to SOS from GitHub Actions with the Exoscale CLI does not seem to work.
+Uploading files to SOS using the new `exo storage upload` command is significantly slower than using `exo sos upload`.
+
+Check the workflow runs logs to see a comparison of both methods.
