@@ -24,4 +24,4 @@ jobs:
 #         run: exo storage upload regbl.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage
         
       - name: Upload RegBL archive to Exoscale with sos
-        run: exo storage upload ${{ secrets.EXOSCALE_BUCKET_NAME }} regbl.zip 
+        run: exo sos upload ${{ secrets.EXOSCALE_BUCKET_NAME }} regbl.zip 
