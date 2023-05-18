@@ -20,5 +20,8 @@ jobs:
           key: ${{ secrets.EXOSCALE_KEY }}
           secret: ${{ secrets.EXOSCALE_SECRET }}
 
-      - name: Upload RegBL archive to Exoscale
-        run: exo storage upload regbl.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}
+      - name: Upload RegBL archive to Exoscale with storage
+        run: exo storage upload regbl.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage
+        
+      - name: Upload RegBL archive to Exoscale with sos
+        run: exo storage upload ${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-sos regbl.zip 
