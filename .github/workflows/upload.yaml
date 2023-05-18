@@ -1,0 +1,25 @@
+name: Upload
+
+on:
+ workflow_dispatch:
+
+jobs:
+  upload:
+    name: Upload large file to SOS
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+     - name: Download RegBL archive
+       run: curl -o "regbl.zip" "https://public.madd.bfs.admin.ch/ch.zip"
+
+      - name: Setup Exoscale
+        uses: nhedger/setup-exoscale@main
+        with:
+          authenticate: true
+          zone: ch-gva-2
+          account: ${{ secrets.EXOSCALE_ACCOUNT }}
+          key: ${{ secrets.EXOSCALE_KEY }}
+          secret: ${{ secrets.EXOSCALE_SECRET }}
+
+      - name: Upload RegBL archive to Exoscale
+        run: exo storage upload regbl.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}
