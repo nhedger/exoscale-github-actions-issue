@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  upload:
-    name: Upload large file to SOS
+  exo-sos-upload:
+    name: Upload (exo sos upload)
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Download RegBL archive
-        run: curl -o "regbl.zip" "https://public.madd.bfs.admin.ch/ch.zip"
+        run: curl -o "regbl-sos-upload.zip" "https://public.madd.bfs.admin.ch/ch.zip"
 
       - name: Setup Exoscale
         uses: nhedger/setup-exoscale@v2
@@ -19,9 +19,31 @@ jobs:
           account: ${{ secrets.EXOSCALE_ACCOUNT }}
           key: ${{ secrets.EXOSCALE_KEY }}
           secret: ${{ secrets.EXOSCALE_SECRET }}
-
-#       - name: Upload RegBL archive to Exoscale with storage
-#         run: exo storage upload regbl.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage
         
-      - name: Upload RegBL archive to Exoscale with sos
-        run: exo sos upload ${{ secrets.EXOSCALE_BUCKET_NAME }} regbl.zip 
+      - name: Upload RegBL archive to Exoscale using exo sos upload
+        run: exo sos upload ${{ secrets.EXOSCALE_BUCKET_NAME }} regbl-sos-upload.zip
+        
+      - name: Remove uploaded file from bucket
+        run: exo sos remove ${{ secrets.EXOSCALE_BUCKET_NAME }} regbl-sos-upload.zip
+
+  exo-storage-upload:
+    name: Upload (exo storage upload)
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download RegBL archive
+        run: curl -o "regbl-storage-upload.zip" "https://public.madd.bfs.admin.ch/ch.zip"
+
+      - name: Setup Exoscale
+        uses: nhedger/setup-exoscale@v2
+        with:
+          zone: ch-gva-2
+          account: ${{ secrets.EXOSCALE_ACCOUNT }}
+          key: ${{ secrets.EXOSCALE_KEY }}
+          secret: ${{ secrets.EXOSCALE_SECRET }}
+        
+      - name: Upload RegBL archive to Exoscale using exo sos upload
+        run: exo storage upload regbl-storage-upload.zip ${{ secrets.EXOSCALE_BUCKET_NAME }}
+        
+      - name: Remove uploaded file from bucket
+        run: exo storage delete sos://${{ secrets.EXOSCALE_BUCKET_NAME }}/regbl-storage-upload.zip
